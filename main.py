@@ -1,6 +1,7 @@
 import sys
 from settings import *
 from stacked_sprite import StackedSprite
+from cache import Cache
 
 
 class App:
@@ -11,6 +12,8 @@ class App:
         self.delta_time = 0.01
         # groups
         self.main_group = pg.sprite.Group()
+        # game objects
+        self.cache = Cache()
         # scene
         StackedSprite(self, name='chr_knight', pos=(-H_WIDTH // 2, 0))
         StackedSprite(self, name='car', pos=(H_WIDTH // 2, 0))
