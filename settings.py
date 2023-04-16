@@ -6,7 +6,7 @@ RES = WIDTH, HEIGHT = vec2(1600, 900)
 CENTER = H_WIDTH, H_HEIGHT = RES // 2
 
 BG_COLOR = (20, 30, 46)
-NUM_ANGLES = 90  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
+NUM_ANGLES = 360  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 
 # stacked sprites settings
 STACKED_SPRITE_ATTRS = {

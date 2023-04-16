@@ -1,15 +1,36 @@
 from settings import *
+import os
+import pickle
 
 
 class Cache:
     def __init__(self):
-        self.stacked_sprite_cache = {}
-        self.viewing_angle = 360 // NUM_ANGLES
-        self.get_stacked_sprite_cache()
+        if os.path.exists("cache.pickle"):
+            with open("cache.pickle", "rb") as f:
+                self.stacked_sprite_cache = pickle.load(f)
+
+                for key, value in self.stacked_sprite_cache.items():
+                    for angle, array_surface in value['rotated_sprites'].items():
+                        value['rotated_sprites'][angle] = pg.surfarray.make_surface(array_surface)
+                        image = value['rotated_sprites'][angle]
+                        image.set_colorkey((77, 55, 29))
+
+            self.viewing_angle = 360 // NUM_ANGLES
+
+        else:
+            self.stacked_sprite_cache = {}
+            self.stacked_sprite_cache_save = {}
+            self.viewing_angle = 360 // NUM_ANGLES
+            self.get_stacked_sprite_cache()
+            with open("cache.pickle", "wb") as f:
+                pickle.dump(self.stacked_sprite_cache_save, f)
 
     def get_stacked_sprite_cache(self):
         for obj_name in STACKED_SPRITE_ATTRS:
             self.stacked_sprite_cache[obj_name] = {
+                'rotated_sprites': {},
+            }
+            self.stacked_sprite_cache_save[obj_name] = {
                 'rotated_sprites': {},
             }
             attrs = STACKED_SPRITE_ATTRS[obj_name]
@@ -30,7 +51,9 @@ class Cache:
                 sprite_surf.blit(layer, (0, ind * attrs['scale']))
 
             image = pg.transform.flip(sprite_surf, flip_x=True, flip_y=True)
+            array_surface = pg.surfarray.array3d(image)
             self.stacked_sprite_cache[obj_name]['rotated_sprites'][angle] = image
+            self.stacked_sprite_cache_save[obj_name]['rotated_sprites'][angle] = array_surface
 
     def get_layer_array(self, attrs):
         # load sprite sheet
