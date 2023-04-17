@@ -3,7 +3,7 @@ from entity import *
 
 class Explosion(Entity):
     def __init__(self, app, name='explosion', pos=(0, 0)):
-        super().__init__(app, name, pos)
+        super().__init__(app, name, pos, collision=False)
         self.life_time_cycles = self.attrs['num_layers'] - 1
         self.cycles = 0
         self.transform()
@@ -38,8 +38,14 @@ class Bullet(BaseEntity):
     def check_collision(self):
         hits = pg.sprite.spritecollide(self, self.app.collision_group,
                                       dokill=False, collided=pg.sprite.collide_mask)
+        hit_target = pg.sprite.spritecollide(self, self.app.collision_target,
+                                       dokill=False, collided=pg.sprite.collide_mask)
         if hits:
             Explosion(self.app, pos=(self.pos + self.player.offset) / TILE_SIZE)
+            self.kill()
+        if hit_target:
+            Explosion(self.app, pos=(self.pos + self.player.offset) / TILE_SIZE)
+            self.app.life_anim = True
             self.kill()
 
     def change_layer(self):

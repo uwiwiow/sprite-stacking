@@ -39,6 +39,12 @@ ENTITY_SPRITE_ATTRS = {
         'path': 'assets/entities/bullet/bullet.png',
         'y_offset': 50,
     },
+    'life': {
+        'num_layers': 6,
+        'scale': 10,
+        'path': 'assets/entities/life/life.png',
+        'y_offset': 0,
+    },
 }
 
 # stacked sprites settings

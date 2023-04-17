@@ -3,6 +3,7 @@ from random import uniform
 from entity import Entity
 
 P = 'player'
+L = 'life'
 K = 'kitty'  # entity
 B, C, D, E, F, G, H = 'tank', 'blue_tree', 'car', 'grass', 'crate', 'cup', 'pancake'
 S = 'sphere'  # transform object
@@ -10,9 +11,9 @@ S = 'sphere'  # transform object
 MAP = [
     [0, E, 0, E, B, 0, E, 0, 0, E, 0, E, 0, E],
     [E, C, C, C, 0, C, C, 0, E, 0, C, C, C, 0],
-    [0, C, 0, 0, 0, 0, E, C, 0, C, 0, H, K, C],
-    [C, 0, 0, E, C, 0, 0, C, C, 0, 0, 0, 0, C],
-    [C, E, 0, 0, P, E, 0, E, 0, 0, F, E, 0, C],
+    [0, C, 0, 0, 0, L, E, C, 0, C, 0, H, 0, C],
+    [C, 0, 0, E, P, K, 0, C, C, 0, 0, 0, 0, C],
+    [C, E, 0, 0, C, E, 0, E, 0, 0, F, E, 0, C],
     [C, 0, 0, 0, E, D, E, S, 0, F, 0, 0, C, 0],
     [0, C, E, 0, 0, 0, E, 0, E, 0, 0, B, C, E],
     [0, C, C, 0, E, 0, C, C, 0, G, E, C, 0, 0],
@@ -39,7 +40,9 @@ class Scene:
                 if name == 'player':
                     self.app.player.offset = pos * TILE_SIZE
                 elif name == 'kitty':
-                    Entity(self.app, name=name, pos=pos)
+                    Entity(self.app, name=name, pos=pos, collision=True)
+                elif name == 'life':
+                    Entity(self.app, name=name, pos=pos, collision=False)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grass':

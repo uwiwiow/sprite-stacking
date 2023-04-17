@@ -17,11 +17,13 @@ class App:
         # groups
         self.main_group = pg.sprite.LayeredUpdates()
         self.collision_group = pg.sprite.Group()
+        self.collision_target = pg.sprite.Group()
         self.transparent_objects = []
         # game objects
         self.cache = Cache()
         self.player = Player(self)
         self.scene = Scene(self)
+        self.life_anim = False
 
     def update(self):
         self.scene.update()
