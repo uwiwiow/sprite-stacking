@@ -16,16 +16,13 @@ class Cache:
                         image.set_colorkey((77, 55, 29))
                     for angle, array_surface in value['alpha_sprites'].items():
                         value['alpha_sprites'][angle] = pg.surfarray.make_surface(array_surface)
-                    for angle, array_surface in value['collision_masks'].items():
-                        array = pg.surfarray.make_surface(array_surface)
-                        value['collision_masks'][angle] = pg.mask.from_surface(array)
-                        print(value['collision_masks'][angle])
 
             self.viewing_angle = 360 // NUM_ANGLES
             self.outline_thickness = 5
             self.alpha_value = 70
             self.entity_sprite_cache = {}
             self.get_entity_sprite_cache()
+            self.get_mask_cache()
 
         else:
             self.stacked_sprite_cache = {}
@@ -77,6 +74,32 @@ class Cache:
             layer_array = self.get_layer_array(attrs)
             self.run_prerender(obj_name, layer_array, attrs)
 
+    def get_mask_cache(self):
+        for obj_name in STACKED_SPRITE_ATTRS:
+            attrs = STACKED_SPRITE_ATTRS[obj_name]
+            layer_array = self.get_layer_array(attrs)
+            self.run_mask_prerender(obj_name, layer_array, attrs)
+
+    def run_mask_prerender(self, obj_name, layer_array, attrs):
+        mask_layer = attrs.get('mask_layer', attrs['num_layers'] // 2)
+        for angle in range(NUM_ANGLES):
+            surf = pg.Surface(layer_array[0].get_size())
+            surf = pg.transform.rotate(surf, angle * self.viewing_angle)
+            sprite_surf = pg.Surface([surf.get_width(), surf.get_height()
+                                      + attrs['num_layers'] * attrs['scale']])
+            sprite_surf.fill((77, 55, 29))
+            sprite_surf.set_colorkey((77, 55, 29))
+
+            for ind, layer in enumerate(layer_array):
+                layer = pg.transform.rotate(layer, angle * self.viewing_angle)
+                sprite_surf.blit(layer, (0, ind * attrs['scale']))
+
+                # get collision mask
+                if ind == mask_layer:
+                    surf = pg.transform.flip(sprite_surf, True, True)
+                    mask = pg.mask.from_surface(surf)
+                    self.stacked_sprite_cache[obj_name]['collision_masks'][angle] = mask
+
     def run_prerender(self, obj_name, layer_array, attrs):
         outline = attrs.get('outline', True)
         transparency = attrs.get('transparency', False)
@@ -98,10 +121,7 @@ class Cache:
                 if ind == mask_layer:
                     surf = pg.transform.flip(sprite_surf, True, True)
                     mask = pg.mask.from_surface(surf)
-                    print(mask)
-                    array_surface = pg.surfarray.array3d(surf)
                     self.stacked_sprite_cache[obj_name]['collision_masks'][angle] = mask
-                    self.stacked_sprite_cache_save[obj_name]['collision_masks'][angle] = array_surface
 
             # get outline
             if outline:
