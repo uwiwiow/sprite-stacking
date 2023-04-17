@@ -3,7 +3,7 @@ import math
 
 
 class StackedSprite(pg.sprite.Sprite):
-    def __init__(self, app, name, pos, rot=0):
+    def __init__(self, app, name, pos, rot=0, collision=True):
         self.app = app
         self.name = name
         self.pos = vec2(pos) * TILE_SIZE
@@ -11,14 +11,23 @@ class StackedSprite(pg.sprite.Sprite):
         self.group = app.main_group
         super().__init__(self.group)
 
+        if collision:
+            self.app.collision_group.add(self)
+
         self.attrs = STACKED_SPRITE_ATTRS[name]
         self.y_offset = vec2(0, self.attrs['y_offset'])
         self.cache = app.cache.stacked_sprite_cache
         self.viewing_angle = app.cache.viewing_angle
         self.rotated_sprites = self.cache[name]['rotated_sprites']
+        self.collision_masks = self.cache[name]['collision_masks']
+
         self.angle = 0
         self.screen_pos = vec2(0)
         self.rot = (rot % 360) // self.viewing_angle
+
+        self.image = self.rotated_sprites[self.angle]
+        self.mask = self.collision_masks[self.angle]
+        self.rect = self.image.get_rect()
 
     def transform(self):
         pos = self.pos - self.player.offset
@@ -40,15 +49,18 @@ class StackedSprite(pg.sprite.Sprite):
 
     def get_image(self):
         self.image = self.rotated_sprites[self.angle]
+        self.mask = self.collision_masks[self.angle]
         self.rect = self.image.get_rect(center=self.screen_pos + self.y_offset)
 
 
-class TrnsStackedSprites(StackedSprite):
+class TrnspStackedSprite(StackedSprite):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.app.transparent_objects.append(self)
-        self.dist_to_player = 0.0
+
         self.alpha_trigger = False
+        self.alpha_objects = self.cache[self.name]['alpha_sprites']
+        self.dist_to_player = 0.0
 
     def get_alpha_image(self):
         if self.alpha_trigger:

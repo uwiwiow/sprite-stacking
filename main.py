@@ -16,6 +16,7 @@ class App:
         pg.time.set_timer(self.anim_event, 100)
         # groups
         self.main_group = pg.sprite.LayeredUpdates()
+        self.collision_group = pg.sprite.Group()
         self.transparent_objects = []
         # game objects
         self.cache = Cache()
@@ -41,7 +42,8 @@ class App:
                 sys.exit()
             elif e.type == self.anim_event:
                 self.anim_trigger = True
-
+            elif e.type == pg.KEYDOWN:
+                self.player.single_fire(event=e)
 
     def get_time(self):
         self.time = pg.time.get_ticks() * 0.001

@@ -12,6 +12,7 @@ class BaseEntity(pg.sprite.Sprite):
         entity_cache = self.app.cache.entity_sprite_cache
         self.images = entity_cache[name]['images']
         self.image = self.images[0]
+        self.mask = entity_cache[name]['mask']
         self.rect = self.image.get_rect()
         self.frame_index = 0
 
