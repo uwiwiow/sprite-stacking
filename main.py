@@ -1,7 +1,8 @@
 import sys
 from settings import *
-from stacked_sprite import StackedSprite
 from cache import Cache
+from player import Player
+from scene import Scene
 
 
 class App:
@@ -10,15 +11,19 @@ class App:
         self.clock = pg.time.Clock()
         self.time = 0
         self.delta_time = 0.01
+        self.anim_trigger = False
+        self.anim_event = pg.USEREVENT + 0
+        pg.time.set_timer(self.anim_event, 100)
         # groups
-        self.main_group = pg.sprite.Group()
+        self.main_group = pg.sprite.LayeredUpdates()
+        self.transparent_objects = []
         # game objects
         self.cache = Cache()
-        # scene
-        StackedSprite(self, name='chr_knight', pos=(-H_WIDTH // 2, 0))
-        StackedSprite(self, name='car', pos=(H_WIDTH // 2, 0))
+        self.player = Player(self)
+        self.scene = Scene(self)
 
     def update(self):
+        self.scene.update()
         self.main_group.update()
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
         self.delta_time = self.clock.tick()
@@ -29,10 +34,14 @@ class App:
         pg.display.flip()
 
     def check_events(self):
+        self.anim_trigger = False
         for e in pg.event.get():
             if e.type == pg.QUIT or (e.type == pg.KEYDOWN and e.key == pg.K_ESCAPE):
                 pg.quit()
                 sys.exit()
+            elif e.type == self.anim_event:
+                self.anim_trigger = True
+
 
     def get_time(self):
         self.time = pg.time.get_ticks() * 0.001

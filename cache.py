@@ -6,9 +6,9 @@ import pickle
 class Cache:
     def __init__(self):
         if os.path.exists("cache.pickle"):
+
             with open("cache.pickle", "rb") as f:
                 self.stacked_sprite_cache = pickle.load(f)
-
                 for key, value in self.stacked_sprite_cache.items():
                     for angle, array_surface in value['rotated_sprites'].items():
                         value['rotated_sprites'][angle] = pg.surfarray.make_surface(array_surface)
@@ -16,14 +16,28 @@ class Cache:
                         image.set_colorkey((77, 55, 29))
 
             self.viewing_angle = 360 // NUM_ANGLES
+            self.entity_sprite_cache = {}
+            self.get_entity_sprite_cache()
 
         else:
             self.stacked_sprite_cache = {}
             self.stacked_sprite_cache_save = {}
+            self.entity_sprite_cache = {}
             self.viewing_angle = 360 // NUM_ANGLES
+            self.outline_thickness = 5
             self.get_stacked_sprite_cache()
+            self.get_entity_sprite_cache()
             with open("cache.pickle", "wb") as f:
                 pickle.dump(self.stacked_sprite_cache_save, f)
+
+    def get_entity_sprite_cache(self):
+        for sprite_name in ENTITY_SPRITE_ATTRS:
+            self.entity_sprite_cache[sprite_name] = {
+                'images': None,
+            }
+            attrs = ENTITY_SPRITE_ATTRS[sprite_name]
+            images = self.get_layer_array(attrs)
+            self.entity_sprite_cache[sprite_name]['images'] = images
 
     def get_stacked_sprite_cache(self):
         for obj_name in STACKED_SPRITE_ATTRS:
@@ -38,6 +52,8 @@ class Cache:
             self.run_prerender(obj_name, layer_array, attrs)
 
     def run_prerender(self, obj_name, layer_array, attrs):
+        outline = attrs.get('outline', True)
+
         for angle in range(NUM_ANGLES):
             surf = pg.Surface(layer_array[0].get_size())
             surf = pg.transform.rotate(surf, angle * self.viewing_angle)
@@ -49,6 +65,11 @@ class Cache:
             for ind, layer in enumerate(layer_array):
                 layer = pg.transform.rotate(layer, angle * self.viewing_angle)
                 sprite_surf.blit(layer, (0, ind * attrs['scale']))
+
+            # get outline
+            if outline:
+                outline_coords = pg.mask.from_surface(sprite_surf).outline()
+                pg.draw.polygon(sprite_surf, 'black', outline_coords, self.outline_thickness)
 
             image = pg.transform.flip(sprite_surf, flip_x=True, flip_y=True)
             array_surface = pg.surfarray.array3d(image)
