@@ -15,6 +15,7 @@ class App:
         self.anim_trigger = False
         self.anim_event = pg.USEREVENT + 0
         pg.time.set_timer(self.anim_event, 100)
+        self.life_anim = False
         # groups
         self.main_group = pg.sprite.LayeredUpdates()
         self.collision_group = pg.sprite.Group()
@@ -22,9 +23,8 @@ class App:
         self.transparent_objects = []
         # game objects
         self.cache = Cache()
-        self.player = Player(self)
+        self.player = Player(self, 70)
         self.scene = Scene(self)
-        self.life_anim = False
 
     def update(self):
         self.scene.update()
@@ -47,6 +47,7 @@ class App:
                 self.anim_trigger = True
             elif e.type == pg.KEYDOWN:
                 self.player.single_fire(event=e)
+                self.player.alimentarse(event=e)
 
     def get_time(self):
         self.time = pg.time.get_ticks() * 0.001
@@ -54,7 +55,7 @@ class App:
     def run(self):
         try:
             pg.mixer.music.load("assets/interface/music.wav")
-            pg.mixer.music.play(100, 0, 0)
+            pg.mixer.music.play(100, 0, 2000)
         except FileNotFoundError:
             print("No se encontro el archivo")
         while True:

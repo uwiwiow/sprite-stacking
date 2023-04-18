@@ -18,14 +18,14 @@ class BaseEntity(pg.sprite.Sprite):
 
     def animate(self):
         if self.app.anim_trigger:
-            if self.name != "life":
+            if self.name != "life" and self.name != "energy":
                 self.frame_index = (self.frame_index + 1) % len(self.images)
                 self.image = self.images[self.frame_index]
         if self.app.life_anim:
             if self.name == "life":
-                self.frame_index = (self.frame_index + 1) % len(self.images)
-
-                self.image = self.images[self.frame_index]
+                self.frame_index = (self.frame_index + 1)
+                if self.frame_index <= 6:
+                    self.image = self.images[self.frame_index]
                 self.app.life_anim = False
 
     def update(self):

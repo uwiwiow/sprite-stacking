@@ -5,6 +5,7 @@ import pickle
 
 class Cache:
     def __init__(self):
+        print("initialized")
         if os.path.exists("cache.pickle"):
 
             with open("cache.pickle", "rb") as f:
@@ -76,9 +77,6 @@ class Cache:
 
     def get_mask_cache(self):
         for obj_name in STACKED_SPRITE_ATTRS:
-            a = 1
-            print(a)
-            a += 1
             attrs = STACKED_SPRITE_ATTRS[obj_name]
             layer_array = self.get_layer_array(attrs)
             self.run_mask_prerender(obj_name, layer_array, attrs)

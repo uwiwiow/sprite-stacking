@@ -5,7 +5,7 @@ from bullet import Bullet
 
 
 class Player(BaseEntity):
-    def __init__(self, app, name='player'):
+    def __init__(self, app, energia, name='player'):
         super().__init__(app, name)
         self.group.change_layer(self, CENTER.y)
 
@@ -16,6 +16,10 @@ class Player(BaseEntity):
         self.prev_inc = vec2(0)
         self.angle = 0
         self.diag_move_corr = 1 / math.sqrt(2)
+
+        self.energia = energia
+        self.energia_inicial = energia
+        print(self.energia)
 
     def control(self):
         self.inc = vec2(0)
@@ -41,6 +45,10 @@ class Player(BaseEntity):
         if self.inc.x and self.inc.y:
             self.inc *= self.diag_move_corr
         self.inc.rotate_ip_rad(-self.angle)
+
+    def alimentarse(self, event):
+        if event.key == pg.K_DOWN:
+            self.energia += self.energia_inicial // 7
 
     def single_fire(self, event):
         if event.key == pg.K_UP:

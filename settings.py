@@ -18,7 +18,7 @@ PLAYER_SPEED = 0.4
 PLAYER_ROT_SPEED = 0.0015
 
 BG_COLOR = 'olivedrab'
-NUM_ANGLES = 90  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
+NUM_ANGLES = 24  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 
 # entity sprites settings
 ENTITY_SPRITE_ATTRS = {
@@ -48,9 +48,69 @@ ENTITY_SPRITE_ATTRS = {
         'y_offset': 50,
     },
     'life': {
-        'num_layers': 6,
+        'num_layers': 7,
         'scale': 10,
-        'path': 'assets/entities/life/life.png',
+        'path': 'assets/entities/life/lifebar.png',
+        'y_offset': 0,
+    },
+    'arrows': {
+        'num_layers': 24,
+        'scale': 5,
+        'path': 'assets/entities/controlls/arrows.png',
+        'y_offset': 0,
+    },
+    'wasd': {
+        'num_layers': 21,
+        'scale': 5,
+        'path': 'assets/entities/controlls/wasd.png',
+        'y_offset': 0,
+    },
+    'energy': {
+        'num_layers': 7,
+        'scale': 10,
+        'path': 'assets/entities/energy/energy_bar.png',
+        'y_offset': 0,
+    },
+    '1': {
+        'num_layers': 1,
+        'scale': 5,
+        'path': 'assets/entities/life/1.png',
+        'y_offset': 0,
+    },
+    '2': {
+        'num_layers': 1,
+        'scale': 5,
+        'path': 'assets/entities/life/2.png',
+        'y_offset': 0,
+    },
+    '3': {
+        'num_layers': 1,
+        'scale': 5,
+        'path': 'assets/entities/life/3.png',
+        'y_offset': 0,
+    },
+    '4': {
+        'num_layers': 1,
+        'scale': 5,
+        'path': 'assets/entities/life/4.png',
+        'y_offset': 0,
+    },
+    '5': {
+        'num_layers': 1,
+        'scale': 5,
+        'path': 'assets/entities/life/5.png',
+        'y_offset': 0,
+    },
+    '6': {
+        'num_layers': 1,
+        'scale': 5,
+        'path': 'assets/entities/life/6.png',
+        'y_offset': 0,
+    },
+    '7': {
+        'num_layers': 1,
+        'scale': 5,
+        'path': 'assets/entities/life/7.png',
         'y_offset': 0,
     },
 }
