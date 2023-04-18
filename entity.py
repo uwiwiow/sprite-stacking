@@ -11,7 +11,9 @@ class BaseEntity(pg.sprite.Sprite):
         self.attrs = ENTITY_SPRITE_ATTRS[name]
         entity_cache = self.app.cache.entity_sprite_cache
         self.images = entity_cache[name]['images']
+        self.energy_images = entity_cache['energy']['images']
         self.image = self.images[0]
+        self.energy_image = self.energy_images[0]
         self.mask = entity_cache[name]['mask']
         self.rect = self.image.get_rect()
         self.frame_index = 0
@@ -26,6 +28,7 @@ class BaseEntity(pg.sprite.Sprite):
                 self.frame_index = (self.frame_index + 1)
                 if self.frame_index <= 6:
                     self.image = self.images[self.frame_index]
+                    self.energy_image = self.energy_images[self.frame_index]
                 self.app.life_anim = False
 
     def update(self):
