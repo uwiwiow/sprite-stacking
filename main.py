@@ -7,6 +7,7 @@ from scene import Scene
 
 class App:
     def __init__(self):
+        pg.mouse.set_visible(False)
         self.screen = pg.display.set_mode(RES)
         self.clock = pg.time.Clock()
         self.time = 0
@@ -51,6 +52,11 @@ class App:
         self.time = pg.time.get_ticks() * 0.001
 
     def run(self):
+        try:
+            pg.mixer.music.load("assets/interface/music.wav")
+            pg.mixer.music.play(100, 0, 0)
+        except FileNotFoundError:
+            print("No se encontro el archivo")
         while True:
             self.check_events()
             self.get_time()

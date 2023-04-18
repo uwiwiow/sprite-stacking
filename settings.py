@@ -1,8 +1,16 @@
 import pygame as pg
+import os
+import json
 
 vec2 = pg.math.Vector2
 
 RES = WIDTH, HEIGHT = vec2(1600, 900)
+
+if os.path.exists("res.txt"):
+    with open("res.txt", 'r') as f:
+        RES = WIDTH, HEIGHT = json.load(f)
+        RES = WIDTH, HEIGHT = vec2(WIDTH, HEIGHT)
+
 CENTER = H_WIDTH, H_HEIGHT = RES // 2
 TILE_SIZE = 250
 
@@ -10,7 +18,7 @@ PLAYER_SPEED = 0.4
 PLAYER_ROT_SPEED = 0.0015
 
 BG_COLOR = 'olivedrab'
-NUM_ANGLES = 24  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
+NUM_ANGLES = 90  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 
 # entity sprites settings
 ENTITY_SPRITE_ATTRS = {
@@ -54,12 +62,6 @@ STACKED_SPRITE_ATTRS = {
         'num_layers': 15,
         'scale': 6,
         'y_offset': -40,
-    },
-    'hearth': {
-        'path': 'assets/stacked_sprites/hearth.png',
-        'num_layers': 200,
-        'scale': 1,
-        'y_offset': 0,
     },
     'sphere': {
         'path': 'assets/stacked_sprites/sphere.png',
