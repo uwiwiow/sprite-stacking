@@ -16,7 +16,9 @@ if os.path.exists("res.txt"):
         RES = WIDTH, HEIGHT = json.load(f)
 
 SCREEN = pg.display.set_mode(RES)
-pg.display.set_caption("Menu")
+pg.display.set_caption("Wizardry Warriors")
+pygame_icon = pg.image.load("assets/interface/icon.png")
+pg.display.set_icon(pygame_icon)
 
 BG = pg.image.load("assets/interface/Background.jpg")
 
@@ -31,7 +33,7 @@ def choose_character():
         SCREEN.blit(BG, (0, 0))
         chose_mouse_pos = pg.mouse.get_pos()
 
-        options_text = get_font(int(WIDTH * 72) // 1920).render("Selecciona un personaje", True, "Black")
+        options_text = get_font(int(WIDTH * 72) // 1920).render("CHOOSE A CHARACTER", True, "Black")
         options_rect = options_text.get_rect(center=(WIDTH // 2, 100))
         SCREEN.blit(options_text, options_rect)
 
@@ -39,8 +41,6 @@ def choose_character():
                         pos=(WIDTH // 4, HEIGHT // 2))
         wizard = Image(image=pg.image.load("assets/entities/wizard/row-1-column-1.png"),
                        pos=(WIDTH - WIDTH // 4, HEIGHT // 2))
-
-        warrior.update(SCREEN)
 
         for button in [warrior, wizard]:
             button.update(SCREEN)
@@ -63,10 +63,10 @@ def choose_character():
 def character(character):
 
     if character == 'player':
-        save = ["player", "bullet"]
+        save = ["player", "bullet", "assets/entities/warrior/row-1-column-1.png"]
 
     if character == 'mage':
-        save = ["mage", "ice_bullet"]
+        save = ["mage", "ice_bullet", "assets/entities/wizard/row-1-column-1.png"]
 
     with open("ch.txt", 'w') as f:
         json.dump(save, f)
@@ -83,11 +83,11 @@ def options():
         SCREEN.blit(BG, (0, 0))
         options_mouse_pos = pg.mouse.get_pos()
 
-        options_text = get_font(int(WIDTH * 72) // 1920).render("Set resolution", True, "Black")
+        options_text = get_font(int(WIDTH * 72) // 1920).render("SET RESOLUTION", True, "Black")
         options_rect = options_text.get_rect(center=(WIDTH//2, 100))
         SCREEN.blit(options_text, options_rect)
 
-        options_text_af = get_font(int(WIDTH * 36) // 1920).render("Reset after setting resolution", True, "red")
+        options_text_af = get_font(int(WIDTH * 36) // 1920).render("RESET AFTER SETTING RESOLUTION", True, "red")
         options_rect_af = options_text.get_rect(center=(WIDTH // 2, 50))
 
         if real:

@@ -26,8 +26,11 @@ class BaseEntity(pg.sprite.Sprite):
         if self.app.life_trigger:
             if self.name == "life":
                 self.frame_index = (self.frame_index + 1)
-                if self.frame_index <= 6:
+                if self.frame_index < 6:
                     self.image = self.images[self.frame_index]
+                if self.frame_index == 6:
+                    self.image = self.images[self.frame_index]
+                    pg.event.post(pg.event.Event(self.app.win_event))
         if self.app.energy_trigger:
             if self.name == "energy":
                 self.frame_index = (self.frame_index + 1) % len(self.images)

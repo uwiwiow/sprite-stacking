@@ -15,7 +15,7 @@ MAP = [
     [C, E, C, E, B, C, E, C, C, E, C, E, C, E],
     [E, C, C, C, 0, C, C, 0, E, 0, C, C, C, C],
     [C, C, 0, 0, I, L, E, C, 0, C, 0, H, 0, C],
-    [C, 0, 0, E, P, 0, 0, C, C, 0, 0, 0, 0, C],
+    [C, 0, 0, E, P, K, 0, C, C, 0, 0, 0, 0, C],
     [C, E, 0, A, C, E, 0, E, 0, 0, F, E, 0, C],
     [C, 0, W, 0, E, D, E, S, 0, F, 0, 0, C, C],
     [C, C, E, 0, 0, 0, E, 0, E, 0, 0, B, C, E],
@@ -23,12 +23,12 @@ MAP = [
     [E, C, C, C, C, C, C, C, C, C, C, C, E, C],
 ]
 
-while True:
-    row = randint(0, len(MAP)-1)
-    col = randint(0, len(MAP[0])-1)
-    if MAP[row][col] == 0:
-        MAP[row][col] = K
-        break
+# while True:
+#     row = randint(0, len(MAP)-1)
+#     col = randint(0, len(MAP[0])-1)
+#     if MAP[row][col] == 0:
+#         MAP[row][col] = K
+#         break
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
 MAP_CENTER = MAP_SIZE / 2
