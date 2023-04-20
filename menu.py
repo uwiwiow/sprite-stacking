@@ -120,8 +120,15 @@ def options():
         set360_button = Button(image=None, pos=((WIDTH // 3) * 2.2, (HEIGHT // 2) + 150),
                             text_input="360", font=get_font(56), base_color="Black", hovering_color="White")
 
+        reset_button = Button(image=None, pos=((WIDTH // 4) * 3, HEIGHT - 100),
+                               text_input="RESET CONFIGURATION", font=get_font(36), base_color="Black", hovering_color="yellow")
+
+        delete_all_button = Button(image=None, pos=((WIDTH // 4) * 3, HEIGHT - 50),
+                               text_input="DELETE ALL DATA", font=get_font(36), base_color="Black", hovering_color="red")
+
         for button in [options_back, hd_button, wxga_button, hdp_button, fhd_button,
-                       set30_button, set90_button,set180_button, set360_button]:
+                       set30_button, set90_button,set180_button, set360_button,
+                       reset_button, delete_all_button]:
             button.change_color(options_mouse_pos)
             button.update(SCREEN)
 
@@ -153,8 +160,18 @@ def options():
                 if set180_button.check_for_input(options_mouse_pos):
                     change_angles(180)
                     real = True
-                if set360_button.check_for_input(options_mouse_pos):
-                    change_angles(360)
+                if reset_button.check_for_input(options_mouse_pos):
+                    files_to_delete = ["res.txt", "angles.txt", "ch.txt"]
+                    for file in files_to_delete:
+                        if os.path.exists(file):
+                            os.remove(file)
+                    real = True
+                if delete_all_button.check_for_input(options_mouse_pos):
+                    files_to_delete = ["res.txt", "angles.txt", "ch.txt", "cache30.pickle", "cache90.pickle",
+                                       "cache180.pickle", "cache360.pickle"]
+                    for file in files_to_delete:
+                        if os.path.exists(file):
+                            os.remove(file)
                     real = True
 
         pg.display.update()
