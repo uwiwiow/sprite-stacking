@@ -5,7 +5,6 @@ import pickle
 
 class Cache:
     def __init__(self):
-        print("initialized")
         if os.path.exists("cache.pickle"):
 
             with open("cache.pickle", "rb") as f:

@@ -69,7 +69,6 @@ class App:
             elif e.type == self.alimentar_event:
                 self.alimentar_trigger = True
             elif e.type == self.win_event:
-                print("a")
                 # set blur
                 screen_surface = pg.display.get_surface()
                 blur_surface = pg.Surface((self.screen.get_width(), self.screen.get_height()))
