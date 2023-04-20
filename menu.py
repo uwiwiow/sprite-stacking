@@ -31,7 +31,7 @@ def choose_character():
         SCREEN.blit(BG, (0, 0))
         chose_mouse_pos = pg.mouse.get_pos()
 
-        options_text = get_font((WIDTH * 72) // 1920).render("Selecciona un personaje", True, "Black")
+        options_text = get_font(int(WIDTH * 72) // 1920).render("Selecciona un personaje", True, "Black")
         options_rect = options_text.get_rect(center=(WIDTH // 2, 100))
         SCREEN.blit(options_text, options_rect)
 
