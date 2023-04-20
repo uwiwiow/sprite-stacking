@@ -51,9 +51,6 @@ class Bullet(BaseEntity):
     def change_layer(self):
         self.group.change_layer(self, self.rect.centery - self.y_offset)
 
-    def load_images(self):
-        return self.app.cache.cached_entity_data[self.name]
-
     def check_life_time(self):
         if self.app.anim_trigger:
             self.cycles += 1

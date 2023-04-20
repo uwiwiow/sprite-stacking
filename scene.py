@@ -58,15 +58,15 @@ class Scene:
                     Entity(self.app, name=name, pos=pos, collision=True)
                     self.life_pos = vec2(pos) * TILE_SIZE
                 elif name == 'life':
-                    obj = Entity(self.app, name=name, pos=pos, collision=False)
+                    obj = Entity(self.app, name=name, pos=pos)
                     self.move_life = obj
                 elif name == 'energy':
-                    obj = Entity(self.app, name=name, pos=pos, collision=False)
+                    obj = Entity(self.app, name=name, pos=pos)
                     self.move_energy = obj
                 elif name == 'wasd':
-                    Entity(self.app, name=name, pos=pos, collision=False)
+                    Entity(self.app, name=name, pos=pos)
                 elif name == 'arrows':
-                    Entity(self.app, name=name, pos=pos, collision=False)
+                    Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grass':
