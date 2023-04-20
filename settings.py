@@ -84,58 +84,10 @@ ENTITY_SPRITE_ATTRS = {
         'path': 'assets/entities/energy/energy_bar.png',
         'y_offset': 0,
     },
-    '1': {
-        'num_layers': 1,
-        'scale': 5,
-        'path': 'assets/entities/life/1.png',
-        'y_offset': 0,
-    },
-    '2': {
-        'num_layers': 1,
-        'scale': 5,
-        'path': 'assets/entities/life/2.png',
-        'y_offset': 0,
-    },
-    '3': {
-        'num_layers': 1,
-        'scale': 5,
-        'path': 'assets/entities/life/3.png',
-        'y_offset': 0,
-    },
-    '4': {
-        'num_layers': 1,
-        'scale': 5,
-        'path': 'assets/entities/life/4.png',
-        'y_offset': 0,
-    },
-    '5': {
-        'num_layers': 1,
-        'scale': 5,
-        'path': 'assets/entities/life/5.png',
-        'y_offset': 0,
-    },
-    '6': {
-        'num_layers': 1,
-        'scale': 5,
-        'path': 'assets/entities/life/6.png',
-        'y_offset': 0,
-    },
-    '7': {
-        'num_layers': 1,
-        'scale': 5,
-        'path': 'assets/entities/life/7.png',
-        'y_offset': 0,
-    },
 }
 
 # stacked sprites settings
 STACKED_SPRITE_ATTRS = {
-    'chr_knight': {
-        'path': 'assets/stacked_sprites/chr_knight.png',
-        'num_layers': 15,
-        'scale': 6,
-        'y_offset': -40,
-    },
     'sphere': {
         'path': 'assets/stacked_sprites/sphere.png',
         'num_layers': 13,
