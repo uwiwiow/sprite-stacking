@@ -5,9 +5,9 @@ import pickle
 
 class Cache:
     def __init__(self):
-        if os.path.exists("cache.pickle"):
+        if os.path.exists(f'cache{NUM_ANGLES}.pickle'):
 
-            with open("cache.pickle", "rb") as f:
+            with open(f'cache{NUM_ANGLES}.pickle', "rb") as f:
                 self.stacked_sprite_cache = pickle.load(f)
                 for key, value in self.stacked_sprite_cache.items():
                     for angle, array_surface in value['rotated_sprites'].items():
@@ -33,7 +33,7 @@ class Cache:
             self.alpha_value = 70
             self.get_stacked_sprite_cache()
             self.get_entity_sprite_cache()
-            with open("cache.pickle", "wb") as f:
+            with open(f'cache{NUM_ANGLES}.pickle', "wb") as f:
                 pickle.dump(self.stacked_sprite_cache_save, f)
 
     def get_entity_sprite_cache(self):

@@ -18,7 +18,11 @@ PLAYER_SPEED = 0.4
 PLAYER_ROT_SPEED = 0.0015
 
 BG_COLOR = 'olivedrab'
-NUM_ANGLES = 24  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
+NUM_ANGLES = 30  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
+
+if os.path.exists("angles.txt"):
+    with open("angles.txt", 'r') as f:
+        NUM_ANGLES = json.load(f)
 
 # entity sprites settings
 ENTITY_SPRITE_ATTRS = {

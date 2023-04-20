@@ -87,7 +87,7 @@ def options():
         options_rect = options_text.get_rect(center=(WIDTH//2, 100))
         SCREEN.blit(options_text, options_rect)
 
-        options_text_af = get_font(int(WIDTH * 36) // 1920).render("RESET AFTER SETTING RESOLUTION", True, "red")
+        options_text_af = get_font(int(WIDTH * 36) // 1920).render("RESET TO APPLY CHANGES", True, "red")
         options_rect_af = options_text.get_rect(center=(WIDTH // 2, 50))
 
         if real:
@@ -96,19 +96,32 @@ def options():
         options_back = Button(image=None, pos=(250, HEIGHT - 100),
                               text_input="BACK", font=get_font(75), base_color="Black", hovering_color="White")
 
-        hd_button = Button(image=None, pos=(WIDTH // 2, (HEIGHT // 2) - 150),
+        hd_button = Button(image=None, pos=(WIDTH // 3, (HEIGHT // 2) - 150),
                               text_input="1280 x 720", font=get_font(56), base_color="Black", hovering_color="White")
 
-        wxga_button = Button(image=None, pos=(WIDTH // 2, (HEIGHT // 2) - 50),
+        wxga_button = Button(image=None, pos=(WIDTH // 3, (HEIGHT // 2) - 50),
                               text_input="1366 x 768", font=get_font(56), base_color="Black", hovering_color="White")
 
-        hdp_button = Button(image=None, pos=(WIDTH // 2, (HEIGHT // 2) + 50),
+        hdp_button = Button(image=None, pos=(WIDTH // 3, (HEIGHT // 2) + 50),
                               text_input="1600 x 900", font=get_font(56), base_color="Black", hovering_color="White")
 
-        fhd_button = Button(image=None, pos=(WIDTH // 2, (HEIGHT // 2) + 150),
+        fhd_button = Button(image=None, pos=(WIDTH // 3, (HEIGHT // 2) + 150),
                               text_input="1920 x 1080", font=get_font(56), base_color="Black", hovering_color="White")
 
-        for button in [options_back, hd_button, wxga_button, hdp_button, fhd_button]:
+        set30_button = Button(image=None, pos=((WIDTH // 3) * 2.2, (HEIGHT // 2) - 150),
+                           text_input="30", font=get_font(56), base_color="Black", hovering_color="White")
+
+        set90_button = Button(image=None, pos=((WIDTH // 3) * 2.2, (HEIGHT // 2) - 50),
+                             text_input="90", font=get_font(56), base_color="Black", hovering_color="White")
+
+        set180_button = Button(image=None, pos=((WIDTH // 3) * 2.2, (HEIGHT // 2) + 50),
+                            text_input="180", font=get_font(56), base_color="Black", hovering_color="White")
+
+        set360_button = Button(image=None, pos=((WIDTH // 3) * 2.2, (HEIGHT // 2) + 150),
+                            text_input="360", font=get_font(56), base_color="Black", hovering_color="White")
+
+        for button in [options_back, hd_button, wxga_button, hdp_button, fhd_button,
+                       set30_button, set90_button,set180_button, set360_button]:
             button.change_color(options_mouse_pos)
             button.update(SCREEN)
 
@@ -131,6 +144,18 @@ def options():
                 if fhd_button.check_for_input(options_mouse_pos):
                     change_res(RES, (1920, 1080))
                     real = True
+                if set30_button.check_for_input(options_mouse_pos):
+                    change_angles(30)
+                    real = True
+                if set90_button.check_for_input(options_mouse_pos):
+                    change_angles(90)
+                    real = True
+                if set180_button.check_for_input(options_mouse_pos):
+                    change_angles(180)
+                    real = True
+                if set360_button.check_for_input(options_mouse_pos):
+                    change_angles(360)
+                    real = True
 
         pg.display.update()
 
@@ -140,6 +165,11 @@ def change_res(old_res: vec2, new_res: vec2):
 
     with open("res.txt", 'w') as f:
         json.dump(old_res, f)
+
+def change_angles(opc):
+
+    with open("angles.txt", 'w') as f:
+        json.dump(opc, f)
 
 
 def main_menu():
