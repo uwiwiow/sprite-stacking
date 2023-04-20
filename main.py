@@ -29,7 +29,10 @@ class App:
         self.transparent_objects = []
         # game objects
         self.cache = Cache()
-        self.player = Player(self, 60)
+        if os.path.exists("ch.txt"):
+            with open("ch.txt", 'r') as f:
+                character = json.load(f)
+        self.player = Player(self, energia=60, name=character[0], bulletname=character[1])
         self.scene = Scene(self)
 
     def update(self):

@@ -1,6 +1,7 @@
 import os.path
 import sys
 from button import Button
+from image import Image
 from main import App
 import pygame as pg
 import json
@@ -14,7 +15,6 @@ if os.path.exists("res.txt"):
     with open("res.txt", 'r') as f:
         RES = WIDTH, HEIGHT = json.load(f)
 
-
 SCREEN = pg.display.set_mode(RES)
 pg.display.set_caption("Menu")
 
@@ -25,22 +25,69 @@ def get_font(size):  # Returns Press-Start-2P in the desired size
     return pg.font.Font("assets/interface/font.ttf", size)
 
 
+def choose_character():
+    while True:
+
+        SCREEN.blit(BG, (0, 0))
+        chose_mouse_pos = pg.mouse.get_pos()
+
+        options_text = get_font((WIDTH * 72) // 1920).render("Selecciona un personaje", True, "Black")
+        options_rect = options_text.get_rect(center=(WIDTH // 2, 100))
+        SCREEN.blit(options_text, options_rect)
+
+        warrior = Image(image=pg.image.load("assets/entities/warrior/row-1-column-1.png"),
+                        pos=(WIDTH // 4, HEIGHT // 2))
+        wizard = Image(image=pg.image.load("assets/entities/wizard/row-1-column-1.png"),
+                       pos=(WIDTH - WIDTH // 4, HEIGHT // 2))
+
+        warrior.update(SCREEN)
+
+        for button in [warrior, wizard]:
+            button.update(SCREEN)
+
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if warrior.check_for_input(chose_mouse_pos):
+                    character('player')
+                    play()
+                if wizard.check_for_input(chose_mouse_pos):
+                    character('mage')
+                    play()
+
+        pg.display.update()
+
+
+def character(character):
+
+    if character == 'player':
+        save = ["player", "bullet"]
+
+    if character == 'mage':
+        save = ["mage", "ice_bullet"]
+
+    with open("ch.txt", 'w') as f:
+        json.dump(save, f)
+
+
 def play():
     app = App()
     app.run()
 
 
 def options():
-    real = False
+    real = False  # display para el texto si cambia resolucion
     while True:
         SCREEN.blit(BG, (0, 0))
         options_mouse_pos = pg.mouse.get_pos()
 
-        options_text = get_font(72).render("Set resolution", True, "Black")
+        options_text = get_font(int(WIDTH * 72) // 1920).render("Set resolution", True, "Black")
         options_rect = options_text.get_rect(center=(WIDTH//2, 100))
         SCREEN.blit(options_text, options_rect)
 
-        options_text_af = get_font(36).render("Reset after setting resolution", True, "red")
+        options_text_af = get_font(int(WIDTH * 36) // 1920).render("Reset after setting resolution", True, "red")
         options_rect_af = options_text.get_rect(center=(WIDTH // 2, 50))
 
         if real:
@@ -74,7 +121,7 @@ def options():
                     main_menu()
                 if hd_button.check_for_input(options_mouse_pos):
                     change_res(RES, (1280, 720))
-                    real = True
+                    real = True  # display para el texto si cambia resolucion
                 if wxga_button.check_for_input(options_mouse_pos):
                     change_res(RES, (1366, 768))
                     real = True
@@ -124,7 +171,7 @@ def main_menu():
                 sys.exit()
             if event.type == pg.MOUSEBUTTONDOWN:
                 if play_button.check_for_input(menu_mouse_pos):
-                    play()
+                    choose_character()
                 if options_button.check_for_input(menu_mouse_pos):
                     options()
                 if quit_button.check_for_input(menu_mouse_pos):

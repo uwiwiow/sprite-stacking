@@ -23,7 +23,7 @@ class Explosion(Entity):
 
 
 class Bullet(BaseEntity):
-    def __init__(self, app, name='bullet', pos=(0, 0)):
+    def __init__(self, app, name, pos=(0, 0)):
         super().__init__(app, name)
         self.pos = vec2(pos)
         self.player = app.player

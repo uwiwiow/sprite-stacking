@@ -29,6 +29,13 @@ ENTITY_SPRITE_ATTRS = {
         'scale': 0.35,
         'y_offset': 0,
     },
+    'mage': {
+        'path': 'assets/entities/player/mage.png',
+        'mask_path': 'assets/entities/player/mask.png',
+        'num_layers': 7,
+        'scale': 0.35,
+        'y_offset': 0,
+    },
     'kitty': {
         'path': 'assets/entities/cats/kitty.png',
         'num_layers': 8,
@@ -45,6 +52,12 @@ ENTITY_SPRITE_ATTRS = {
         'num_layers': 1,
         'scale': 0.4,
         'path': 'assets/entities/bullet/bullet.png',
+        'y_offset': 50,
+    },
+    'ice_bullet': {
+        'num_layers': 1,
+        'scale': 0.25,
+        'path': 'assets/entities/bullet/ice_bullet.png',
         'y_offset': 50,
     },
     'life': {

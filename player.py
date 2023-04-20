@@ -2,10 +2,12 @@ from settings import *
 import math
 from entity import BaseEntity
 from bullet import Bullet
+import os
+import json
 
 
 class Player(BaseEntity):
-    def __init__(self, app, energia, name='player'):
+    def __init__(self, app, energia, name, bulletname):
         super().__init__(app, name)
         self.group.change_layer(self, CENTER.y)
 
@@ -19,6 +21,7 @@ class Player(BaseEntity):
 
         self.energia = energia
         self.energia_inicial = energia
+        self.bullet_name = bulletname
 
     def control(self):
         self.inc = vec2(0)
@@ -54,7 +57,7 @@ class Player(BaseEntity):
     def single_fire(self, event):
         if event.key == pg.K_UP:
             if self.energia > 0:
-                Bullet(app=self.app)
+                Bullet(app=self.app, name=self.bullet_name)
                 pg.event.post(pg.event.Event(self.app.energy_event))
                 self.energia -= self.energia_inicial // 6
 
