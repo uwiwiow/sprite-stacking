@@ -19,7 +19,6 @@ class Player(BaseEntity):
 
         self.energia = energia
         self.energia_inicial = energia
-        print(self.energia)
 
     def control(self):
         self.inc = vec2(0)
@@ -48,11 +47,16 @@ class Player(BaseEntity):
 
     def alimentarse(self, event):
         if event.key == pg.K_DOWN:
-            self.energia += self.energia_inicial // 7
+            if self.energia < self.energia_inicial:
+                pg.event.post(pg.event.Event(self.app.alimentar_event))
+                self.energia += self.energia_inicial // 6
 
     def single_fire(self, event):
         if event.key == pg.K_UP:
-            Bullet(app=self.app)
+            if self.energia > 0:
+                Bullet(app=self.app)
+                pg.event.post(pg.event.Event(self.app.energy_event))
+                self.energia -= self.energia_inicial // 6
 
     def check_collision(self):
         hit = pg.sprite.spritecollide(self, self.app.collision_group,

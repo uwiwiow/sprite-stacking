@@ -45,7 +45,7 @@ class Bullet(BaseEntity):
             self.kill()
         if hit_target:
             Explosion(self.app, pos=(self.pos + self.player.offset) / TILE_SIZE)
-            self.app.life_anim = True
+            pg.event.post(pg.event.Event(self.app.life_event))
             self.kill()
 
     def change_layer(self):

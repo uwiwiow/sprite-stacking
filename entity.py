@@ -23,13 +23,19 @@ class BaseEntity(pg.sprite.Sprite):
             if self.name != "life" and self.name != "energy":
                 self.frame_index = (self.frame_index + 1) % len(self.images)
                 self.image = self.images[self.frame_index]
-        if self.app.life_anim:
+        if self.app.life_trigger:
             if self.name == "life":
                 self.frame_index = (self.frame_index + 1)
                 if self.frame_index <= 6:
                     self.image = self.images[self.frame_index]
-                    self.energy_image = self.energy_images[self.frame_index]
-                self.app.life_anim = False
+        if self.app.energy_trigger:
+            if self.name == "energy":
+                self.frame_index = (self.frame_index + 1) % len(self.images)
+                self.image = self.images[self.frame_index]
+        if self.app.alimentar_trigger:
+            if self.name == "energy":
+                self.frame_index = (self.frame_index - 1) % len(self.images)
+                self.image = self.images[self.frame_index]
 
     def update(self):
         self.animate()

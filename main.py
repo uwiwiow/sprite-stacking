@@ -12,10 +12,16 @@ class App:
         self.clock = pg.time.Clock()
         self.time = 0
         self.delta_time = 0.01
+        # user events
         self.anim_trigger = False
         self.anim_event = pg.USEREVENT + 0
         pg.time.set_timer(self.anim_event, 100)
-        self.life_anim = False
+        self.life_trigger = False
+        self.life_event = pg.USEREVENT + 1
+        self.energy_trigger = False
+        self.energy_event = pg.USEREVENT + 2
+        self.alimentar_trigger = False
+        self.alimentar_event = pg.USEREVENT + 3
         # groups
         self.main_group = pg.sprite.LayeredUpdates()
         self.collision_group = pg.sprite.Group()
@@ -23,7 +29,7 @@ class App:
         self.transparent_objects = []
         # game objects
         self.cache = Cache()
-        self.player = Player(self, 70)
+        self.player = Player(self, 60)
         self.scene = Scene(self)
 
     def update(self):
@@ -39,12 +45,21 @@ class App:
 
     def check_events(self):
         self.anim_trigger = False
+        self.life_trigger = False
+        self.energy_trigger = False
+        self.alimentar_trigger = False
         for e in pg.event.get():
             if e.type == pg.QUIT or (e.type == pg.KEYDOWN and e.key == pg.K_ESCAPE):
                 pg.quit()
                 sys.exit()
             elif e.type == self.anim_event:
                 self.anim_trigger = True
+            elif e.type == self.life_event:
+                self.life_trigger = True
+            elif e.type == self.energy_event:
+                self.energy_trigger = True
+            elif e.type == self.alimentar_event:
+                self.alimentar_trigger = True
             elif e.type == pg.KEYDOWN:
                 self.player.single_fire(event=e)
                 self.player.alimentarse(event=e)
