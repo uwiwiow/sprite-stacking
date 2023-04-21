@@ -6,8 +6,8 @@ vec2 = pg.math.Vector2
 
 RES = WIDTH, HEIGHT = vec2(1600, 900)
 
-if os.path.exists("res.txt"):
-    with open("res.txt", 'r') as f:
+if os.path.exists("data/res.txt"):
+    with open("data/res.txt", 'r') as f:
         RES = WIDTH, HEIGHT = json.load(f)
         RES = WIDTH, HEIGHT = vec2(WIDTH, HEIGHT)
 
@@ -20,8 +20,8 @@ PLAYER_ROT_SPEED = 0.0015
 BG_COLOR = 'olivedrab'
 NUM_ANGLES = 30  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 
-if os.path.exists("angles.txt"):
-    with open("angles.txt", 'r') as f:
+if os.path.exists("data/angles.txt"):
+    with open("data/angles.txt", 'r') as f:
         NUM_ANGLES = json.load(f)
 
 # entity sprites settings

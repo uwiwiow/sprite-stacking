@@ -8,11 +8,15 @@ import json
 
 pg.init()
 
+if not os.path.exists("data"):
+    # Si el directorio no existe, crearlo
+    os.makedirs("data")
+
 vec2 = pg.math.Vector2
 RES = WIDTH, HEIGHT = vec2(1600, 900)
 
-if os.path.exists("res.txt"):
-    with open("res.txt", 'r') as f:
+if os.path.exists("data/res.txt"):
+    with open("data/res.txt", 'r') as f:
         RES = WIDTH, HEIGHT = json.load(f)
 
 SCREEN = pg.display.set_mode(RES)
@@ -68,7 +72,7 @@ def character(character):
     if character == 'mage':
         save = ["mage", "ice_bullet", "assets/entities/wizard/row-1-column-1.png"]
 
-    with open("ch.txt", 'w') as f:
+    with open("data/ch.txt", 'w') as f:
         json.dump(save, f)
 
 
@@ -161,14 +165,15 @@ def options():
                     change_angles(180)
                     real = True
                 if reset_button.check_for_input(options_mouse_pos):
-                    files_to_delete = ["res.txt", "angles.txt", "ch.txt", "time.txt"]
+                    files_to_delete = ["data/res.txt", "data/angles.txt", "data/ch.txt", "data/time.txt"]
                     for file in files_to_delete:
                         if os.path.exists(file):
                             os.remove(file)
                     real = True
                 if delete_all_button.check_for_input(options_mouse_pos):
-                    files_to_delete = ["res.txt", "angles.txt", "ch.txt", "time.txt", "cache30.pickle",
-                                       "cache90.pickle", "cache180.pickle", "cache360.pickle"]
+                    files_to_delete = ["data/res.txt", "data/angles.txt", "data/ch.txt", "data/time.txt",
+                                       "data/cache30.pickle", "data/cache90.pickle",
+                                       "data/cache180.pickle", "data/cache360.pickle"]
                     for file in files_to_delete:
                         if os.path.exists(file):
                             os.remove(file)
@@ -180,12 +185,12 @@ def options():
 def change_res(old_res: vec2, new_res: vec2):
     old_res = new_res
 
-    with open("res.txt", 'w') as f:
+    with open("data/res.txt", 'w') as f:
         json.dump(old_res, f)
 
 def change_angles(opc):
 
-    with open("angles.txt", 'w') as f:
+    with open("data/angles.txt", 'w') as f:
         json.dump(opc, f)
 
 

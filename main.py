@@ -9,6 +9,8 @@ from image import Image
 
 class App:
     def __init__(self):
+        self.time_offset = None
+        self.first_time_offset = True
         self.is_record = False
         self.record = None
         self.timer = None
@@ -37,8 +39,8 @@ class App:
         self.transparent_objects = []
         # game objects
         self.cache = Cache()
-        if os.path.exists("ch.txt"):
-            with open("ch.txt", 'r') as f:
+        if os.path.exists("data/ch.txt"):
+            with open("data/ch.txt", 'r') as f:
                 self.character = json.load(f)
         self.player = Player(self, energia=60, name=self.character[0], bulletname=self.character[1])
         self.scene = Scene(self)
@@ -53,6 +55,9 @@ class App:
         self.screen.fill(BG_COLOR)
         self.main_group.draw(self.screen)
         pg.display.flip()
+        if self.first_time_offset:
+            self.time_offset = self.time
+            self.first_time_offset = False
 
     def check_events(self):
         self.anim_trigger = False
@@ -129,22 +134,21 @@ class App:
             char = Image(image=pg.image.load(self.character[2]),
                          pos=((WIDTH // 4) * 3, (450 * HEIGHT) // 720))
 
-            if os.path.exists("time.txt"):
-                with open("time.txt", 'r') as f:
+            if os.path.exists("data/time.txt"):
+                with open("data/time.txt", 'r') as f:
                     self.record = json.load(f)
             else:
                 self.record = 3600
 
-            self.timer = self.time
-            round(self.timer, 3)
+            self.timer = self.time - self.time_offset
 
             if self.timer < self.record:
-                with open("time.txt", 'w') as f:
+                with open("data/time.txt", 'w') as f:
                     json.dump(self.timer, f)
                 self.is_record = True
 
             if self.is_record:
-                timepass_record = self.get_font(36).render(str(self.timer), True, "#d6c352")
+                timepass_record = self.get_font(36).render(f'{self.timer: .3f} ', True, "#d6c352")
                 timepass_record_rect = timepass_record.get_rect(center=((WIDTH // 4) * 3.1, (650 * HEIGHT) // 720))
                 self.screen.blit(timepass_record, timepass_record_rect)
 
@@ -152,11 +156,11 @@ class App:
                 new_record_rect = new_record.get_rect(center=((WIDTH // 4) * 3.1, (680 * HEIGHT) // 720))
                 self.screen.blit(new_record, new_record_rect)
             else:
-                timepass = self.get_font(36).render(str(self.timer), True, "#4F76D6")
+                timepass = self.get_font(36).render(f'{self.timer: .3f} ', True, "#4F76D6")
                 timepass_rect = timepass.get_rect(center=((WIDTH // 4) * 3.1, (650 * HEIGHT) // 720))
                 self.screen.blit(timepass, timepass_rect)
 
-                record = self.get_font(36).render(f'RECORD: {str(self.record)}', True, "#d6c352")
+                record = self.get_font(36).render(f'RECORD:{self.record: .3f} ', True, "#d6c352")
                 record_rect = record.get_rect(center=((WIDTH // 4) * 3.1, (680 * HEIGHT) // 720))
                 self.screen.blit(record, record_rect)
 
