@@ -131,7 +131,7 @@ def options():
                                text_input="DELETE ALL DATA", font=get_font(36), base_color="Black", hovering_color="red")
 
         for button in [options_back, hd_button, wxga_button, hdp_button, fhd_button,
-                       set30_button, set90_button,set180_button, set360_button,
+                       set30_button, set90_button, set180_button, set360_button,
                        reset_button, delete_all_button]:
             button.change_color(options_mouse_pos)
             button.update(SCREEN)
@@ -163,6 +163,9 @@ def options():
                     real = True
                 if set180_button.check_for_input(options_mouse_pos):
                     change_angles(180)
+                    real = True
+                if set360_button.check_for_input(options_mouse_pos):
+                    change_angles(360)
                     real = True
                 if reset_button.check_for_input(options_mouse_pos):
                     files_to_delete = ["data/res.txt", "data/angles.txt", "data/ch.txt", "data/time.txt"]
