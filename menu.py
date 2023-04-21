@@ -161,14 +161,14 @@ def options():
                     change_angles(180)
                     real = True
                 if reset_button.check_for_input(options_mouse_pos):
-                    files_to_delete = ["res.txt", "angles.txt", "ch.txt"]
+                    files_to_delete = ["res.txt", "angles.txt", "ch.txt", "time.txt"]
                     for file in files_to_delete:
                         if os.path.exists(file):
                             os.remove(file)
                     real = True
                 if delete_all_button.check_for_input(options_mouse_pos):
-                    files_to_delete = ["res.txt", "angles.txt", "ch.txt", "cache30.pickle", "cache90.pickle",
-                                       "cache180.pickle", "cache360.pickle"]
+                    files_to_delete = ["res.txt", "angles.txt", "ch.txt", "time.txt", "cache30.pickle",
+                                       "cache90.pickle", "cache180.pickle", "cache360.pickle"]
                     for file in files_to_delete:
                         if os.path.exists(file):
                             os.remove(file)

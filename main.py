@@ -9,6 +9,9 @@ from image import Image
 
 class App:
     def __init__(self):
+        self.is_record = False
+        self.record = None
+        self.timer = None
         self.run_app = True
         self.blur_surface = None
         pg.mouse.set_visible(False)
@@ -120,17 +123,42 @@ class App:
                                  hovering_color="White")
 
             char = self.get_font(48).render("CHARACTER", True, "#4F76D6")
-            char_rect = char.get_rect(center=((WIDTH // 4) * 3, (250 * HEIGHT) // 720))
+            char_rect = char.get_rect(center=((WIDTH // 4) * 3.05, (250 * HEIGHT) // 720))
             self.screen.blit(char, char_rect)
 
             char = Image(image=pg.image.load(self.character[2]),
                          pos=((WIDTH // 4) * 3, (450 * HEIGHT) // 720))
 
-            self.timer = self.time
+            if os.path.exists("time.txt"):
+                with open("time.txt", 'r') as f:
+                    self.record = json.load(f)
+            else:
+                self.record = 3600
 
-            timepass = self.get_font(36).render(str(self.timer), True, "#4F76D6")
-            timepass_rect = timepass.get_rect(center=((WIDTH // 4) * 3, (650 * HEIGHT) // 720))
-            self.screen.blit(timepass, timepass_rect)
+            self.timer = self.time
+            round(self.timer, 3)
+
+            if self.timer < self.record:
+                with open("time.txt", 'w') as f:
+                    json.dump(self.timer, f)
+                self.is_record = True
+
+            if self.is_record:
+                timepass_record = self.get_font(36).render(str(self.timer), True, "#d6c352")
+                timepass_record_rect = timepass_record.get_rect(center=((WIDTH // 4) * 3.1, (650 * HEIGHT) // 720))
+                self.screen.blit(timepass_record, timepass_record_rect)
+
+                new_record = self.get_font(36).render("NEW RECORD", True, "#d6c352")
+                new_record_rect = new_record.get_rect(center=((WIDTH // 4) * 3.1, (680 * HEIGHT) // 720))
+                self.screen.blit(new_record, new_record_rect)
+            else:
+                timepass = self.get_font(36).render(str(self.timer), True, "#4F76D6")
+                timepass_rect = timepass.get_rect(center=((WIDTH // 4) * 3.1, (650 * HEIGHT) // 720))
+                self.screen.blit(timepass, timepass_rect)
+
+                record = self.get_font(36).render(f'RECORD: {str(self.record)}', True, "#d6c352")
+                record_rect = record.get_rect(center=((WIDTH // 4) * 3.1, (680 * HEIGHT) // 720))
+                self.screen.blit(record, record_rect)
 
             char.update(self.screen)
 
